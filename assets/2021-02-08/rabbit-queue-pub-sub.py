@@ -32,7 +32,7 @@ def publish ():
 
             connection.close()
     except Exception as err:
-        print("An error occured while retriving the file.")
+        print("An error occurred while retrieving the file.")
         print(str(err))
         traceback.print_tb(err.__traceback__)
     return
@@ -52,7 +52,7 @@ def consume ():
 
             def callback(ch, method, properties, filePath):
                 print(" [*] Retrieved file path {0}".format(filePath))
-                # Ack to the queue message has been recieved successfuly
+                # Ack to the queue message has been received successfully
                 ch.basic_ack(delivery_tag=method.delivery_tag)
             channel.basic_qos(prefetch_count=1)
             channel.basic_consume(queue=src_queue, on_message_callback=callback, auto_ack=False)
@@ -63,7 +63,7 @@ def consume ():
             connection.close()
     except Exception as err:
         print()
-        print("An error occured wwhile retriving the file.")
+        print("An error occurred while retrieving the file.")
         print(str(err))
         traceback.print_tb(err.__traceback__)
     return

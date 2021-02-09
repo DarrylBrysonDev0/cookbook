@@ -102,7 +102,7 @@ def publish ():
 
             connection.close()
     except Exception as err:
-        print("An error occured while retriving the file.")
+        print("An error occurred while retrieving the file.")
         print(str(err))
         traceback.print_tb(err.__traceback__)
     return
@@ -136,7 +136,7 @@ def consume ():
             connection.close()
     except Exception as err:
         print()
-        print("An error occured wwhile retriving the file.")
+        print("An error occurred while retrieving the file.")
         print(str(err))
         traceback.print_tb(err.__traceback__)
     return

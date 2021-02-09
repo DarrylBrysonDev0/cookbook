@@ -32,7 +32,7 @@ The general concept is to utilize an sftp server and a messaging queue to provid
 ## SFTP Server
 An sftp file server allows for applications to securely access files from a directory addressed on the file server but stored physically somewhere else. The advantages of accessing files through a server is that extremely complex or changing network mappings can be statically addressed by an app.
 
-The below example uses the [atmoz sftp image](https://github.com/atmoz/sftp) to create a file server with 2 directories. Directories are defined under the ```volume``` tag and match the pattern *```<Host_Path> : <Container_Path> : <Permission>```*. The first directory points to ```/mnt/d/GenStore/sample-data-set/survey-results``` on the host machine. On the file server this address becomes ```/home/admin/upload/raw```. Likewise the second directory appears under the same parent even though it's location on the host is on a different drive. In addition the ```ro``` suffix makes the first directory read only, very useful when safe guarding sourcing files from alteration.
+The below example uses the [atmoz sftp image](https://github.com/atmoz/sftp) to create a file server with 2 directories. Directories are defined under the ```volume``` tag and match the pattern *```<Host_Path> : <Container_Path> : <Permission>```*. The first directory points to ```/mnt/d/GenStore/sample-data-set/survey-results``` on the host machine. On the file server this address becomes ```/home/admin/upload/raw```. Likewise the second directory appears under the same parent even though it's location on the host is on a different drive. In addition the ```ro``` suffix makes the first directory read only, very useful in safe guarding source files from alteration.
 
 ```yaml
 version: '2'
@@ -46,7 +46,7 @@ services:
     ports:
         - "22:22"
     networks:
-      - ddec-pipeline-network
+      - microservice-network
     command: admin:pass:1001
 ```
 
@@ -68,7 +68,7 @@ services:
       - '15672:15672'
       - '5672:5672'
     networks:
-      - ddec-pipeline-network
+      - microservice-network
 ```
 
 You can follow a detailed “Hello World” walkthrough in your language of choice from the [RabbitMQ site](https://www.rabbitmq.com/tutorials/tutorial-one-python.html). Below are simple python scripts for a publisher and a subscriber.
@@ -156,9 +156,9 @@ services:
     ports:
         - "22:22"
     networks:
-      - ddec-pipeline-network
+      - microservice-network
     command: admin:pass:1001
-  
+
   rabbit-queue:
     image: rabbitmq:3-management
     hostname: rabbit-1
@@ -168,10 +168,10 @@ services:
       - '15672:15672'
       - '5672:5672'
     networks:
-      - ddec-pipeline-network
+      - microservice-network
 networks:
-  ddec-pipeline-network:
+  microservice-network:
     external: true
-``` 
+```
 ***Interface hosts*** [*docker-compose.yaml*](../assets/2021-02-08/docker-compose.yml)
 

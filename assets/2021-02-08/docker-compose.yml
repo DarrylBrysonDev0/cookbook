@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  sftp-srv:
+    image: atmoz/sftp
+    volumes:
+        - /mnt/d/GenStore/sample-data-set/survey-results:/home/admin/upload/raw:ro
+        - /mnt/f/dept010/data-store/1mk3f5-e5ltb4-4r56yh/01/02:/home/admin/upload/weather-set
+    ports:
+        - "22:22"
+    networks:
+      - ddec-pipeline-network
+    command: admin:pass:1001
+  
+  rabbit-queue:
+    image: rabbitmq:3-management
+    hostname: rabbit-1
+    environment:
+      - RABBITMQ_ERLANG_COOKIE='FIDATKey_Link_k1'
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+    networks:
+      - ddec-pipeline-network
+networks:
+  ddec-pipeline-network:
+    external: true

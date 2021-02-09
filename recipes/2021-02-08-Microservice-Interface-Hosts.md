@@ -10,18 +10,19 @@ tags:
 excerpt: "Deployment Walkthrough w/ Docker: Hosts for interfaces between apps and deployment environment"
 ---
 # Deployment Walkthrough: Microservice Communication Interface
-The purpose of this article is to walkthrough the setting up of infrastructure for containerized applications to communicate and access files.  Containerizing an application gives great flexibility in how, where, and at what scale it’s deployed. A drawback to this versatility is the problem of discoverability. Microservice applications often rely on accessing remote files and the ability to communicate with other apps. How does an app find these resources when being deployed into different data centers and dynamicly assign IP addresses?
+The purpose of this article is to walkthrough the setting up of infrastructure for containerized applications to communicate and access files.  Containerizing an application gives great flexibility in how, where, and at what scale it’s deployed. A drawback to this versatility is the problem of discoverability. Microservice applications often rely on accessing remote files and the ability to communicate with other apps. How does an app find these resources when being deployed into different data centers and dynamically assign IP addresses?
 
 ## Hard Coded Solution: Configuration files
-One way to resolve this is to collect all of these environment differences into a configuration file. A new config. file is needed per deployment environment and app. This solution is straight forward but has a significant maintenance cost as the number of apps increases or reused in multiple locations. 
+One way to resolve this, is to collect deployment environment differences into a configuration file. A new config. file is needed per deployment environment and app. This solution is straight forward but has a significant maintenance cost as the number of apps increases or reused in multiple locations (1/Env/App). This can really add up when an enterprise solution can rely on several dozen microservices.
 
 ![Solution Diagram: Direct hard coded addressing](../assets/2021-02-08/direct-addr.png)
 
 *Diagram 1-1: Direct hard coded addressing*
 
 ## Generalized Solution: Communication Interfaces
-A solution for generalized deployment scenarios is to deploy containerizes that can interface between the microservices and the environments they're deployed into. Interfaces deployed as containers are instantly discoverable to other apps in the same Docker “network”[add link to Docker Network Doc].can be natively discovered by the individual applications they will be serving. 
-The general concept is to utilize an sftp server and a messaging queue to provide applications with file access and intra-app communication, respectfully. This simplifies maintenance by focusing deployment specific configurations to a single interface.
+A solution for generalized deployment scenarios is to deploy containerizes that can interface between the microservices and the environments they're deployed into. Interfaces deployed as containers are instantly discoverable to other apps in the same [Docker “network”](https://docs.docker.com/network/).
+
+The general concept is to utilize an sftp server and a messaging queue to provide applications with file access and intra-app communication, respectively. These components are able to service all other apps in the same environment This simplifies maintenance by focusing deployment specific configurations to a single file per environment (1/Env).
 
 ![Solution Diagram: Communication Interface](../assets/2021-02-08/comm-interface.png)
 

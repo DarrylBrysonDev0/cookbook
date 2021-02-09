@@ -1,6 +1,6 @@
 ---
 title: "Deployment Walkthrough: Microservice Communication Interface"
-date: 2020-07-10T10:21:30-04:00
+date: 2021-02-08T11::30
 categories:
   - recipe
 tags:
@@ -31,7 +31,7 @@ The general concept is to utilize an sftp server and a messaging queue to provid
 ## SFTP Server
 An sftp file server allows for applications to securely access files from a directory addressed on the file server but stored physically somewhere else. The advantages of accessing files through a server is that extremely complex or changing network mappings can be statically addressed by an app.
 
-The below example uses the [atmoz sftp image](https://github.com/atmoz/sftp) to create a file server with 2 directories. The first directory points to ```/mnt/d/GenStore/sample-data-set/survey-results``` on the host machine. On the file server this address becomes ```/home/admin/upload/raw```. Likewise the second directory appears under the same parent even though it's location on the host is on a different drive. In addition the ```ro``` suffix makes the first directory read only, very useful when safe guarding sourcing files from alteration. 
+The below example uses the [atmoz sftp image](https://github.com/atmoz/sftp) to create a file server with 2 directories. Directories are defined under the ```volume``` tag and match the pattern *```<Host_Path> : <Container_Path> : <Permission>```*. The first directory points to ```/mnt/d/GenStore/sample-data-set/survey-results``` on the host machine. On the file server this address becomes ```/home/admin/upload/raw```. Likewise the second directory appears under the same parent even though it's location on the host is on a different drive. In addition the ```ro``` suffix makes the first directory read only, very useful when safe guarding sourcing files from alteration.
 
 ```yaml
 version: '2'
@@ -52,7 +52,7 @@ services:
 
 ## Messaging Queue
 Messaging queues are standard design concepts for microservice applications. Queues allow for applications to be “loosely” connected. Meaning, that each app communicates with the queue instead of with each other. A message queue, in a way, is a running list of small messages. Messages are posted by one app (publishers) and then read by another (subscribers). This example uses an image created by RabbitMQ. RabbitMQ makes connectors for lots of different languages and is efficient for general purpose use cases.
-Below is the docker-compose yaml for deploying the RabbitMQ broker. 
+Below is the docker-compose yaml for deploying the RabbitMQ broker.
 
 ```yaml
 version: '2'
@@ -71,8 +71,76 @@ services:
 ```
 
 You can follow a detailed “Hello World” walkthrough in your language of choice from the [RabbitMQ site](https://www.rabbitmq.com/tutorials/tutorial-one-python.html). Below are simple python scripts for a publisher and a subscriber.
-<publisher-script>
-<subscriber-script>
+```python
+def publish ():
+    source_path = '/mnt/d/GenStore/sample-data-set/survey-results'
+    rbt_srv = 'rabbit-queue'
+    trgt_queue = 'new_files'
+
+    try:
+        # Get list of file paths to publish
+        fAr = os.listdir( source_path )
+
+        print('Connecting to rabbit ',rbt_srv)
+        with pika.BlockingConnection(pika.ConnectionParameters(rbt_srv)) as connection:
+            channel = connection.channel()
+            print('Connected')
+            # Create queue if it doesn't
+            channel.queue_declare(queue=trgt_queue, durable=True)
+            # Clear queue
+            channel.queue_purge(queue=trgt_queue)
+
+            i=0
+            for f in fAr:
+                # Publish file name to queue
+                channel.basic_publish(exchange='',
+                                    routing_key=trgt_queue,
+                                    body=str(f))
+                i+=1
+            print(" [x] Sent", i,"files to the queue")
+
+            connection.close()
+    except Exception as err:
+        print("An error occured while retriving the file.")
+        print(str(err))
+        traceback.print_tb(err.__traceback__)
+    return
+```
+***RabbitMQ Publisher*** [*rabbit-queue-pub-sub.py*](../assets/2021-02-08/rabbit-queue-pub-sub.py)
+
+
+```python
+def consume ():
+    rbt_srv = 'rabbit-queue'
+    src_queue = 'new_files'
+    try:
+        print(' [-] Connecting to RabbitMQ server',rbt_srv)
+        with pika.BlockingConnection(pika.ConnectionParameters(rbt_srv)) as connection:
+            channel = connection.channel()
+
+            print(' [+] Connected to RabbitMQ')
+            # Declare source queue
+            channel.queue_declare(queue=src_queue, durable=True)
+
+            def callback(ch, method, properties, filePath):
+                print(" [*] Retrieved file path {0}".format(filePath))
+                # Ack to the queue message has been recieved successfuly
+                ch.basic_ack(delivery_tag=method.delivery_tag)
+            channel.basic_qos(prefetch_count=1)
+            channel.basic_consume(queue=src_queue, on_message_callback=callback, auto_ack=False)
+
+            print(' [*] Waiting for messages. To exit press CTRL+C')
+            channel.start_consuming()
+
+            connection.close()
+    except Exception as err:
+        print()
+        print("An error occured wwhile retriving the file.")
+        print(str(err))
+        traceback.print_tb(err.__traceback__)
+    return
+```
+***RabbitMQ Subscriber*** [*rabbit-queue-pub-sub.py*](../assets/2021-02-08/rabbit-queue-pub-sub.py)
 
 ## Complete Script
 ```yaml

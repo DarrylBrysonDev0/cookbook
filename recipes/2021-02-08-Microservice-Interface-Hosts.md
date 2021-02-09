@@ -1,5 +1,5 @@
 ---
-title: "Deployment Walkthrough: Microservice Interface Hosts"
+title: "Deployment Walkthrough: Microservice Communication Interface"
 date: 2020-07-10T10:21:30-04:00
 categories:
   - recipe
@@ -9,7 +9,7 @@ tags:
   - docker
 excerpt: "Deployment Walkthrough w/ Docker: Hosts for interfaces between apps and deployment environment"
 ---
-# Deployment Walkthrough: Microservice Interface Hosts
+# Deployment Walkthrough: Microservice Communication Interface
 The purpose of this article is to walkthrough the setting up of infrastructure for containerized applications to communicate and access files.  Containerizing an application gives great flexibility in how, where, and at what scale it’s deployed. A drawback to this versatility is the problem of discoverability. Microservice applications often rely on accessing remote files and the ability to communicate with other apps. How does an app find these resources when being deployed into different data centers and dynamicly assign IP addresses?
 
 ## Hard Coded Solution: Configuration files
@@ -17,7 +17,7 @@ One way to resolve this is to collect all of these environment differences into 
 
 ![Solution Diagram: Direct hard coded addressing](../assets/2021-02-08/direct-addr.png)
 
-**Diagram 1-1: Direct hard coded addressing**
+*Diagram 1-1: Direct hard coded addressing*
 
 ## Generalized Solution: Communication Interfaces
 A solution for generalized deployment scenarios is to deploy containerizes that can interface between the microservices and the environments they're deployed into. Interfaces deployed as containers are instantly discoverable to other apps in the same Docker “network”[add link to Docker Network Doc].can be natively discovered by the individual applications they will be serving. 
@@ -25,7 +25,7 @@ The general concept is to utilize an sftp server and a messaging queue to provid
 
 ![Solution Diagram: Communication Interface](../assets/2021-02-08/comm-interface.png)
 
-**Diagram 1-2: Communication Interface**
+*Diagram 1-2: Communication Interface*
 
 --------------------------------------------------
 ## SFTP Server

@@ -18,8 +18,8 @@ This article describes the a template for executing a docker python application 
   - Docker Image
   - docker-compose (deployment)
 - Interface Classes
-  - SFTP Server
-  - Messaging Queue
+  - [SFTP Server](https://github.com/DarrylBrysonDev0/project-templates/blob/python-app-docker-loop/Docker/Python/microservice-interface-class-information.md)
+  - [Messaging Queue](https://github.com/DarrylBrysonDev0/project-templates/blob/python-app-docker-loop/Docker/Python/microservice-interface-class-information.md)
 - Python app
   - requirements.txt
   - Base script

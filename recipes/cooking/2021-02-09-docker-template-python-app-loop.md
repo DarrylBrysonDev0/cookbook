@@ -21,5 +21,5 @@ This article describes the a template for executing a docker python application 
   - SFTP Server
   - Messaging Queue
 - Python app
-  - requirments.txt
+  - requirements.txt
   - Base script

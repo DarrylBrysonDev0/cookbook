@@ -15,11 +15,11 @@ This article describes the a template for executing a docker python application 
 
 ## Template Components
 - Docker stack file (docker-compose)
-  - Docker Image
-  - docker-compose (deployment)
+  - [Docker Image](https://github.com/DarrylBrysonDev0/project-templates/blob/python-app-docker-loop/Docker/Python/python-app-loop/app-image/Dockerfile.python-app-loop)
+  - [docker-compose (deployment)](https://github.com/DarrylBrysonDev0/project-templates/blob/python-app-docker-loop/Docker/Python/python-app-loop/docker-compose.python-app-loop.yml)
 - Interface Classes
   - [SFTP Server](https://github.com/DarrylBrysonDev0/project-templates/blob/python-app-docker-loop/Docker/Python/microservice-interface-class-information.md)
   - [Messaging Queue](https://github.com/DarrylBrysonDev0/project-templates/blob/python-app-docker-loop/Docker/Python/microservice-interface-class-information.md)
 - Python app
-  - requirements.txt
-  - Base script
+  - [requirements.txt](https://github.com/DarrylBrysonDev0/project-templates/tree/python-app-docker-loop/Docker/Python/python-app-loop/app-image/requirements.txt)
+  - [Script Boilerplate](https://github.com/DarrylBrysonDev0/project-templates/tree/python-app-docker-loop/Docker/Python/python-app-loop/app-image/python-app-loop.py)

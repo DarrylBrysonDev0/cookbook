@@ -14,6 +14,7 @@ excerpt: "Docker Template w/ Docker: Looped execution of python app as a microse
 This article describes the a template for executing a docker python application with microservice interfaces enabled ***[Include article link 2021-02-08]***. This template is suitable for both batch and always-on use cases. Project
 
 ## Template Components
+
 ```bash
 application
 ├── app
@@ -23,6 +24,62 @@ application
     └── some_folder
         └── some_file.py
 ```
+## Environment Variables
+> **IMPORTANT**:
+>
+> 1. Please update the `YOUR_APPLICATION_IMAGE` placeholder in the above snippet with your application image
+> 2. Configure Kafka and ZooKeeper persistence, and configure them either via environment variables or by [mounting configuration files](#full-configuration).
+> 3. In your application container, use the hostname `kafka` to connect to the Kafka server
+
+Launch the containers using:
+
+```console
+$ docker-compose up -d
+```
+
+## Configuration
+```bash
+environment variables:
+├──────────────────────────────────
+├── SFTP Server
+│   └── SFTP_HOST
+│   └── SFTP_PORT
+│   └── SFTP_USR
+│   └── SFTP_PWD
+│       
+│── Communication Queue
+│   └── RABBIT_SRV
+│   └── NAMESPACE
+│   └── INPUT_QUEUE
+│   └── OUTPUT_QUEUE
+│       
+│── Container Behavior
+│    └── PUBLISHING_LIMIT
+│    └── FREQUENCY_SEC
+│── File Access
+│    └── SOURCE_PATH
+│    └── DEST_PATH
+│    └── SECONDARY_PATHS
+│        └── SP_1
+│        └── SP_n
+└──────────────────────────────────
+```
+The configuration standardizes a set of input/output channels and some container behavior. Configure the Docker image using the following environment variables:
+
+* `SFTP_HOST`: Host name or ip address for sftp interface. Default: **localhost**.
+* `SFTP_PORT`: Host ssh port for sftp interface. Default: **22**.
+* `SFTP_USR`: User for sftp interface. Default: **admin**.
+* `SFTP_PWD`: Password for sftp interface. Default: **pwd**.
+* `RABBIT_SRV`: Host name or ip address for messaging  interface. Default: **rabbit-queue**.
+* `NAMESPACE`: Base name to use for reporting container status. Default: ***uuid***.
+* `INPUT_QUEUE`: Queue to use as an input channel: **new_files**.
+* `OUTPUT_QUEUE`: Queue to use as an output channel. Default: **processed_files**.
+* `PUBLISHING_LIMIT`: Maximum number of messages to publish to the output queue. Default: **20**.
+* `FREQUENCY_SEC`: Time in sec. between restarting containers. Only effective when ```restart: unless-stopped``` flag is set. Default: **300**.
+* `SOURCE_PATH`: Source file directory on sftp interface. No Default.
+* `DEST_PATH`: Output directory on sftp interface. No Default.
+* `SECONDARY_PATHS`: Additional directories. Optional. Default: **admin**.
+
 
 # Deployment Walkthrough: Microservice Communication Interface
 The purpose of this article is to walkthrough the setting up of infrastructure for containerized applications to communicate and access files.  Containerizing an application gives great flexibility in how, where, and at what scale it’s deployed. A drawback to this versatility is the problem of discoverability. Microservice applications often rely on accessing remote files and the ability to communicate with other apps. How does an app find these resources when being deployed into different data centers and dynamically assign IP addresses?

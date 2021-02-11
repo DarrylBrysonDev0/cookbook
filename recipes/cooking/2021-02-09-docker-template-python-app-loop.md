@@ -14,12 +14,20 @@ excerpt: "Docker Template w/ Docker: Looped execution of python app as a microse
 This article describes the a template for executing a docker python application with microservice interfaces enabled ***[Include article link 2021-02-08]***. This template is suitable for both batch and always-on use cases. Project
 
 ## Template Components
+[*Project repo: project-templates*](https://github.com/DarrylBrysonDev0/project-templates/tree/main/Docker/Python/python-app-loop) 
 - Docker stack file (docker-compose)
-  - [Docker Image](https://github.com/DarrylBrysonDev0/project-templates/blob/python-app-docker-loop/Docker/Python/python-app-loop/app-image/Dockerfile.python-app-loop)
-  - [docker-compose (deployment)](https://github.com/DarrylBrysonDev0/project-templates/blob/python-app-docker-loop/Docker/Python/python-app-loop/docker-compose.python-app-loop.yml)
+  - [Docker Image](https://github.com/DarrylBrysonDev0/project-templates/blob/main/Docker/Python/python-app-loop/app-image/Dockerfile.python-app-loop)
+  - [docker-compose (deployment)](https://github.com/DarrylBrysonDev0/project-templates/blob/main/Docker/Python/python-app-loop/docker-compose.python-app-loop.yml)
 - Interface Classes
-  - [SFTP Server](https://github.com/DarrylBrysonDev0/project-templates/blob/python-app-docker-loop/Docker/Python/microservice-interface-class-information.md)
-  - [Messaging Queue](https://github.com/DarrylBrysonDev0/project-templates/blob/python-app-docker-loop/Docker/Python/microservice-interface-class-information.md)
+  - [SFTP Server](https://github.com/DarrylBrysonDev0/project-templates/blob/main/Docker/Python/microservice-interface-class-information.md)
+  - [Messaging Queue](https://github.com/DarrylBrysonDev0/project-templates/blob/main/Docker/Python/microservice-interface-class-information.md)
 - Python app
-  - [requirements.txt](https://github.com/DarrylBrysonDev0/project-templates/tree/python-app-docker-loop/Docker/Python/python-app-loop/app-image/requirements.txt)
-  - [Script Boilerplate](https://github.com/DarrylBrysonDev0/project-templates/tree/python-app-docker-loop/Docker/Python/python-app-loop/app-image/python-app-loop.py)
+  - [requirements.txt](https://github.com/DarrylBrysonDev0/project-templates/blob/main/Docker/Python/python-app-loop/app-image/requirements.txt)
+  - [Script Boilerplate](https://github.com/DarrylBrysonDev0/project-templates/blob/main/Docker/Python/python-app-loop/app-image/python-app-loop.py)
+
+## Concept
+***Add Container to interface diagram***
+
+![Template Diagram: Container Communication Interface](../assets/2021-02-09/container-comm-interface.png)
+
+*Diagram 1-2: Communication Interface*

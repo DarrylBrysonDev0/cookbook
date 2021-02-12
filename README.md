@@ -1,5 +1,5 @@
 # Cookbook
-A collection of walkthroughs and exercises. Topics include devops, data analytics, and system automation
+A collection of design patterns, walkthroughs and exercises. Topics include devops, data analytics, and system automation.
 
 ## Recipes
 ### Walkthroughs 

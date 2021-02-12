@@ -1,6 +1,6 @@
 ---
 title: "Docker Template: Python App Looped Execution"
-date: 2021-02-08T10:00:00
+date: 2021-02-12T16:00:00-23:30:00
 categories:
   - templates
 tags:
@@ -31,7 +31,7 @@ This template adds, to a python container, several libraries and boiler-plating 
 2. Outputs
 3. Status    
 
-![Template Diagram: Container Communication Interface](../../assets/2021-02-09/container-interface-view.png)
+![Template Diagram: Container Communication Interface](../assets/2021-02-12/container-interface-view.png)
 
 *Diagram 1-1: View of container communication interface*
 ### Input Channels
@@ -54,7 +54,7 @@ Outbound communication interfaces for the application to export result data. Out
 
 ## Example Use Case
 
-![Template Diagram: Container Communication Interface](../../assets/2021-02-09/container-interface-example.png)
+![Template Diagram: Container Communication Interface](../assets/2021-02-12/container-interface-example.png)
 
 *Diagram 1-2: Example File Conversion Use Case*
 

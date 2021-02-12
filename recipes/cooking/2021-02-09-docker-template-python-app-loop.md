@@ -11,7 +11,7 @@ excerpt: "Docker Template w/ Docker: Looped execution of python app as a microse
 ---
 # Docker Template: Python App Looped Execution
 ## Overview
-This article describes the a template for executing a docker python application with microservice interfaces enabled ***[Include article link 2021-02-08]***. This template is suitable for both batch and always-on use cases. Project
+This article describes a template for executing a containerized python application with custom "microservice interfaces" enabled. Reference my previous post [Deployment Walkthrough: Microservice Communication Interface](../2021-02-08-Microservice-Interface-Hosts.md) for details about interface hosts. This template is suitable for both batch and always-on use cases. Project
 
 ## Template Components
 [*Project repo: project-templates*](https://github.com/DarrylBrysonDev0/project-templates/tree/main/Docker/Python/python-app-loop) 
@@ -25,9 +25,29 @@ This article describes the a template for executing a docker python application 
   - [requirements.txt](https://github.com/DarrylBrysonDev0/project-templates/blob/main/Docker/Python/python-app-loop/app-image/requirements.txt)
   - [Script Boilerplate](https://github.com/DarrylBrysonDev0/project-templates/blob/main/Docker/Python/python-app-loop/app-image/python-app-loop.py)
 
-## Concept
-***Add Container to interface diagram***
+## Template Concept
+This template adds, to a python container, several libraries and boiler-plating to support the development of microservice applications. Included are classes that can interface between the microservices and the environments they're deployed into. The interface provides 3 types of communication channels.
+1. Inputs
+2. Outputs
+3. Status    
 
-![Template Diagram: Container Communication Interface](../assets/2021-02-09/container-comm-interface.png)
+![Template Diagram: Container Communication Interface](../../assets/2021-02-09/container-interface-view.png)
 
-*Diagram 1-2: Communication Interface*
+*Diagram 1-1: View of container communication interface*
+### Input Channels
+Inbound communication interfaces for the application to use as source data. Input channels include:
+
+* `SOURCE_PATH`: Source SFTP directory of input files. Default: **/src**.
+* `INPUT_QUEUE`: Queue to use as an input channel of messages. Default: **new_files**.
+
+### Outputs Channels
+Outbound communication interfaces for the application to export result data. Output channels include:
+
+* `DEST_PATH`: Output SFTP directory of result files. Default:**/trgt**.
+* `OUTPUT_QUEUE`: Queue to use as an output channel of messages. Default: **processed_files**.
+
+### Status
+* `NAMESPACE`: Base name to use for reporting container status. Default: ***uuid***.
+  * `_success_<NAMESPACE>`: Reports successful completion of an application cycle or task
+  * `_fault_<NAMESPACE>`: Reports fault of application task
+  * `_status_<NAMESPACE>`: Reports ongoing progress of application

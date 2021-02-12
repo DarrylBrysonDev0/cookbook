@@ -51,3 +51,13 @@ Outbound communication interfaces for the application to export result data. Out
   * `_success_<NAMESPACE>`: Reports successful completion of an application cycle or task
   * `_fault_<NAMESPACE>`: Reports fault of application task
   * `_status_<NAMESPACE>`: Reports ongoing progress of application
+
+## Example Use Case
+
+![Template Diagram: Container Communication Interface](../../assets/2021-02-09/container-interface-example.png)
+
+*Diagram 1-2: Example File Conversion Use Case*
+
+A typical task in many data solutions is the bulk conversion of files. The above diagram illustrates how this template can containerize a python script for xml conversion.The `INPUT_QUEUE =  new-files` holds a list of files that need to be converted. Those files are then accessed through the `SOURCE_PATH = ./raw`. After the conversion is complete the resulting file is uploaded to `DEST_PATH = ./converted` and the save path is published to `OUTPUT_QUEUE = converted-files` this will be the input queue for next task.
+
+As the task is running progression is reported on queue `_status_xml_converter`. Any files that fail conversion will be reported to `_fault_xml_converter`. Finally, each successful completion of a task cycle, controlled by `FREQUENCY_SEC`, will report to queue `_success_xml_converter`.

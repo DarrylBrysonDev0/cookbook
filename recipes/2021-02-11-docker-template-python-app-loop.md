@@ -43,7 +43,7 @@ Inbound communication interfaces for the application to use as source data. Inpu
 ### Outputs Channels
 Outbound communication interfaces for the application to export result data. Output channels include:
 
-* `DEST_PATH`: Output SFTP directory of result files. Default:**/trgt**.
+* `DEST_PATH`: Output SFTP directory of result files. Default: **/trgt**.
 * `OUTPUT_QUEUE`: Queue to use as an output channel of messages. Default: **processed_files**.
 
 ### Status

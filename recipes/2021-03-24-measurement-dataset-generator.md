@@ -12,6 +12,7 @@ excerpt: "Generate custom datasets from randomized data into csv, xml, and parqu
 
 # Auto Generate Lab Measurement Dataset
 ---------------------------
+[view Notebook](https://nbviewer.jupyter.org/github/DarrylBrysonDev0/cookbook/blob/main/assets/2021-03-24/measurement-dataset-generator.ipynb)
 
 A typical data source found in most industrial work places are lab measurements. This type of data usually has a well defined structure and is a mixture of categorical and numeric data types. Measurement ranges and file format can vary greatly between use cases. This article covers how to generate a simple dataset that can be customized to simulate a wide range of use cases.  
 
